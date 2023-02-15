@@ -18,6 +18,14 @@ cputemp2rgb is a small daemon that changes the color of your motherboard's built
 
 The program is self-contained within `cputemp2rgb.py` and can be run from anywhere on your system. It could be trivially launched from `/etc/rc.local` or `systemd`, or as an autostart or login script in your favorite desktop environment. This is left as an exercise for the user.
 
+## Configuration
+
+`cputemp2rgb` contains the following configuration values which can be edited in the source code:
+
+### COLORSHIFT
+
+COLORSHIFT allows you to redshift or blueshift the color profile according to your preferences. By default, your lights will be pure white somewhere around 85 C, depending on how low your idle temperatures reach. Negative values will raise this threshold, positive values will lower it. Adjusting this is completely optional.
+
 ## Usage
 
 ```console

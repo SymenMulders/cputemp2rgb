@@ -60,6 +60,25 @@ To stop the program:
 
 """
 
+"""
+Configuration:
+==============
+"""
+"""
+COLORSHIFT
+----------
+
+COLORSHIFT is used to shift the overall color gradient toward red or blue per
+your preference. Negative numbers shift the color more red, positive numbers
+shift more blue. By default, cputemp2rgb will output pure white at around
+85 C. Negative numbers will raise this value, positive numbers will lower it.
+"""
+COLORSHIFT = 0
+"""
+Do not^H^H^H^H^H^H Send a pull request if you edit below this line!
+-------------------------------------------------------------------
+"""
+
 from sys import exit
 from time import sleep
 from numpy import log
@@ -110,6 +129,8 @@ Computes a red value for a given temperature.
 :returns: int between 0 and 255.
 """
 def r(temp):
+    if temp <= 0.0:
+        temp = 0.1
     if temp <= 66.0:
         red = 255
     else:
@@ -124,6 +145,8 @@ Computes a green value for a given temperature.
 :returns: int between 0 and 255.
 """
 def g(temp):
+    if temp <= 0.0:
+        temp = 0.1
     if temp <= 66.0:
         green = temp
         green = 99.4708025861 * log(green) - 161.1195681661
@@ -139,6 +162,8 @@ Computes a blue value for a given temperature.
 :returns: int between 0 and 255.
 """
 def b(temp):
+    if temp <= 0.0:
+        temp = 0.1
     if temp >= 66:
         blue = 255
     else:
@@ -172,7 +197,8 @@ def cputemp2rgb():
         # Take the average of the last temperature and the current to set with.
         # This gives us a smoother ramp, as every read has a decay time.
         temp = ((temp + cputemp()) / 2.0)
-        output = temp - offset
+        # Pull in the fudge factors to make it look good.
+        output = temp - offset + COLORSHIFT
         motherboard.set_color(RGBColor(r(output), g(output), b(output)))
         sleep(5.0)
 
